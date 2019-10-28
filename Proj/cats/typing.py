@@ -200,8 +200,21 @@ def fastest_words(word_times, margin=1e-5):
     assert all(len(times) == n_words + 1 for times in word_times)
     assert margin > 0
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
+    results = []
+
+    for i in range(1, n_words + 1):
+        times = []
+        for j in range(n_players):
+            player_times = elapsed_time(
+                word_time[i][j]) - elapsed_time(word_time[i][j - 1])
+            times.append(player_times)
+        fastest_time = min(times)
+
+        for k in range(n_players):
+            if times[k] == fastest_time or abs(fastest_time - times[k]) <= margin:
+                item = word(word_time[0][i])
+                results[k].append(item)
+    return results
 
 
 def word_time(word, elapsed_time):
